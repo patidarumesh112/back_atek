@@ -40,6 +40,9 @@ const User = sequelize.define('User', {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
+  image:{
+    type:DataTypes.STRING,
+  }
 });
 
 module.exports = User;

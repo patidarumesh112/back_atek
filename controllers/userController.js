@@ -36,13 +36,13 @@ async function getUserByUsername(req, res) {
 
 // Update user
 async function updateUser(req, res) {
-  const { username } = req.params;
+  const { id } = req.params;
   const userData = req.body;
 
   try {
     const user = await User.findOne({
       where: {
-        username,
+        id,
       },
     });
 
@@ -118,6 +118,28 @@ async function logoutUser(req, res) {
   }
 }
 
+async function imageupload(req,res){
+  const { id } = req.params;
+  const userData = req.body;
+  try {
+    const user = await User.findOne({
+      where: {
+        id,
+      },
+    });
+
+    if (!user) {
+      res.status(404).json({ error: 'User not found' });
+    } else {
+      console.log("uploadddd",req.file.filename)
+      await user.update({'image':req.file.filename});
+      res.json(user);
+    }
+  } catch (error) {
+    res.status(400).json({ error: 'Invalid user supplied' });
+  }
+}
+
 // Create user
 async function createUser(req, res) {
   const userData = req.body;
@@ -138,4 +160,5 @@ module.exports = {
   loginUser,
   logoutUser,
   createUser,
+  imageupload
 };
